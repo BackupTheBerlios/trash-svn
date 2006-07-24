@@ -1,19 +1,25 @@
+# TrashBag.rb
+# Andrew Muro <andrewdangermuro@gmail.com>
+# 2006/07/18
+
+# TRASH packet superclass.
 class TrashBag
-end
+  attr_reader :header,:length,:data
 
-# Represents a chat message between clients.
-class TrashTalk < TrashBag
-  def initialize(message)
-    @message = message
-    @length = message.size
-    @header = "0"
-  end
-end
+  # Constructor is given an object which it then converts to a TrashBag.
+  def initialize(data)
 
-class TrashFile < TrashBag
-  def initialize(file)
-    @file = file
-    @length = FileTest.size(file)
-    @header = "1"
+    # Chat message.
+    if (data.class == String)
+      @header = "0"
+      @length = data.size
+      @data = data
+
+      # File.
+    elsif (data.class == File)
+      @header = "1"
+      @length = FileTest.size(data)
+      @data = data
+    end
   end
 end
